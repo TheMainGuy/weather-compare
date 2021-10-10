@@ -7,22 +7,31 @@ export default async function handler(req, res) {
         res.status(400).json({
             error: 'Bad lattitude or longitude',
         })
+        return
     }
     const url = 'https://api.troposphere.io/climate/' + lat + ',' + lng + '?token=' + config.apiKey
-    https.get(url, (resp) => {
-        let data = ''
+    await getDataFromAPI(url, res)
+}
 
-        resp.on('data', (chunk) => {
-            data += chunk;
-        })
+async function getDataFromAPI(url, res) {
+    return new Promise(resolve => {
+        https.get(url, response => {
+            let data = ''
 
-        resp.on('end', () => {
-            res.status(200).json(JSON.parse(data))
-        })
+            response.on('data', (chunk) => {
+                data += chunk
+            })
 
-    }).on("error", (err) => {
-        res.status(400).json({
-            error: err.message,
+            response.on('end', () => {
+                res.status(200).json(JSON.parse(data))
+                Promise.resolve();
+            })
+
+        }).on("error", (err) => {
+            res.status(400).json({
+                error: err.message,
+            })
+            Promise.resolve()
         })
     })
 }
