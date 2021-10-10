@@ -23,14 +23,6 @@ export default function Home() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        setSeries(
-            [
-                {
-                    name: "series-1",
-                    data: [12, 15, 19, 22, 24, 25, 27, 29, 25, 20, 17, 14]
-                }
-            ]
-        )
         fetch("/api/city?lat=46.8&lng=14&name=test")
             .then(res => res.json()).then((result) => {
                 const data = result.data;
