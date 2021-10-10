@@ -1,23 +1,41 @@
-import Head from 'next/head'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
+import React from "react";
+import dynamic from 'next/dynamic'
+
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function Home() {
-  return (
-    <div className="container">
-      <Head>
-        <title>Next.js Starter!</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    const data = {
+        options: {
+            chart: {
+                id: "basic-bar"
+            },
+            xaxis: {
+                categories: ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+                    "October", "November", "December"]
+            }
+        },
+        series: [
+            {
+                name: "series-1",
+                data: [12, 15, 19, 22, 24, 25, 27, 29, 25, 20, 17, 14, 10]
+            }
+        ]
+    };
 
-      <main>
-        <Header title="Welcome to my app!" />
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-      </main>
 
-      <Footer />
-    </div>
-  )
+    return (
+        <div className="app">
+            <div className="row">
+                <div className="mixed-chart">
+                    <Chart
+                        options={data.options}
+                        series={data.series}
+                        type="line"
+                        width="1000"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+
 }
