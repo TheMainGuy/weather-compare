@@ -24,7 +24,7 @@ async function getDataFromAPI(city, url, res) {
 
             response.on('end', () => {
                 let json = JSON.parse(data)
-                json.city = city
+                json.data.city = city
                 res.status(200).json(json)
                 Promise.resolve();
             })

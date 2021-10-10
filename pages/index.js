@@ -23,13 +23,14 @@ export default function Home() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        fetch("/api/city?lat=46.8&lng=14&name=test")
+        fetch("/api/city?lat=46.8&lng=14&city=test")
             .then(res => res.json()).then((result) => {
                 const data = result.data;
+                console.log(JSON.stringify(result));
                 setSeries(
                     [
                         {
-                            name: data.name,
+                            name: data.city,
                             data: data.monthly.map(month => Math.round(month.temperatureMax))
                         }
                     ]
