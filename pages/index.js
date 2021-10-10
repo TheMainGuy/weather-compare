@@ -12,12 +12,15 @@ export default function Home() {
             xaxis: {
                 categories: ["January", "February", "March", "April", "May", "June", "July", "August", "September",
                     "October", "November", "December"]
-            }
+            },
+            markers: {
+                size: 5,
+            },
         },
         series: [
             {
                 name: "series-1",
-                data: [12, 15, 19, 22, 24, 25, 27, 29, 25, 20, 17, 14, 10]
+                data: [12, 15, 19, 22, 24, 25, 27, 29, 25, 20, 17, 14]
             }
         ]
     };
