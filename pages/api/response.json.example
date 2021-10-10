@@ -1,0 +1,106 @@
+// Example call: /api/city?lat=45.815&lng=15.9819&city=Zajeb
+
+{
+    "error": null,
+    "data": {
+        "monthly": [
+            {
+                "month": 0,
+                "temperatureMin": -1.274932861328125,
+                "temperatureMax": 3.519287109375,
+                "totalPrecipitation": 53.915626525878906,
+                "cloudCover": 0.6956400871276855,
+                "sunshineHours": 9.066944444444445
+            },
+            {
+                "month": 1,
+                "temperatureMin": -0.56805419921875,
+                "temperatureMax": 6.32830810546875,
+                "totalPrecipitation": 65.1113052368164,
+                "cloudCover": 0.6467918157577515,
+                "sunshineHours": 10.391111111111112
+            },
+            {
+                "month": 2,
+                "temperatureMin": 3.0909423828125,
+                "temperatureMax": 11.754241943359375,
+                "totalPrecipitation": 64.0199203491211,
+                "cloudCover": 0.6248288750648499,
+                "sunshineHours": 11.874444444444444
+            },
+            {
+                "month": 3,
+                "temperatureMin": 7.4000244140625,
+                "temperatureMax": 16.5245361328125,
+                "totalPrecipitation": 73.70623016357422,
+                "cloudCover": 0.6009902954101562,
+                "sunshineHours": 13.5325
+            },
+            {
+                "month": 4,
+                "temperatureMin": 11.8109130859375,
+                "temperatureMax": 21.3128662109375,
+                "totalPrecipitation": 85.3924560546875,
+                "cloudCover": 0.5753603577613831,
+                "sunshineHours": 14.931111111111111
+            },
+            {
+                "month": 5,
+                "temperatureMin": 15.426727294921875,
+                "temperatureMax": 24.970977783203125,
+                "totalPrecipitation": 91.27081298828125,
+                "cloudCover": 0.5423992872238159,
+                "sunshineHours": 15.703888888888889
+            },
+            {
+                "month": 6,
+                "temperatureMin": 17.3282470703125,
+                "temperatureMax": 27.415374755859375,
+                "totalPrecipitation": 74.25262451171875,
+                "cloudCover": 0.4505898058414459,
+                "sunshineHours": 15.375277777777777
+            },
+            {
+                "month": 7,
+                "temperatureMin": 17.141082763671875,
+                "temperatureMax": 27.3743896484375,
+                "totalPrecipitation": 77.35089874267578,
+                "cloudCover": 0.4354146718978882,
+                "sunshineHours": 14.151944444444444
+            },
+            {
+                "month": 8,
+                "temperatureMin": 12.955108642578125,
+                "temperatureMax": 22.1593017578125,
+                "totalPrecipitation": 90.85213470458984,
+                "cloudCover": 0.5401842594146729,
+                "sunshineHours": 12.567222222222222
+            },
+            {
+                "month": 9,
+                "temperatureMin": 8.54107666015625,
+                "temperatureMax": 16.3980712890625,
+                "totalPrecipitation": 77.11922454833984,
+                "cloudCover": 0.6058753728866577,
+                "sunshineHours": 10.972777777777777
+            },
+            {
+                "month": 10,
+                "temperatureMin": 4.191558837890625,
+                "temperatureMax": 9.422760009765625,
+                "totalPrecipitation": 84.63463592529297,
+                "cloudCover": 0.7162671685218811,
+                "sunshineHours": 9.489722222222222
+            },
+            {
+                "month": 11,
+                "temperatureMin": 0.218505859375,
+                "temperatureMax": 4.380126953125,
+                "totalPrecipitation": 68.65338897705078,
+                "cloudCover": 0.7179600596427917,
+                "sunshineHours": 8.689444444444444
+            }
+        ]
+    },
+    "city": "Zajeb"
+}
