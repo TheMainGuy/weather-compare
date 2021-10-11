@@ -15,6 +15,7 @@ export default function Asynchronous(props) {
     const [options, setOptions] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     const [inputValue, setInputValue] = React.useState("");
+    const [value, setValue] = React.useState(null);
 
 
     const inputChanged = (value) => {
@@ -59,6 +60,7 @@ export default function Asynchronous(props) {
                     }
                 )
                 setInputValue("");
+                setValue(null);
             }, (error) => {
                 setError(error);
             }
@@ -76,6 +78,7 @@ export default function Asynchronous(props) {
             onClose={() => {
                 setOpen(false);
             }}
+            value={value}
             isOptionEqualToValue={(option, value) => option.title === value.title}
             getOptionLabel={(option) => `${option.city} / ${option.country}`}
             onInputChange={(event, value) => inputChanged(value)}
