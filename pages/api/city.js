@@ -7,10 +7,12 @@ let cities = {}
 let init = false
 
 export default async function handler(req, res) {
+
     if (!init) {
         init = true
         cities = await csv().fromFile('worldcities.csv')
     }
+
     let { id } = req.query
     let latlng = id.split('_')
 
@@ -39,7 +41,7 @@ function cacheCity(id, json) {
     } catch { }
 }
 
-function cityCached(id, json) {
+function cityCached(id) {
     if (id in database) {
         return true
     }
