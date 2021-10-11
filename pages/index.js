@@ -63,6 +63,7 @@ export default function Home() {
     };
 
     const suggestionHandler = (suggestion) => {
+        console.log(suggestion);
         setName(`${suggestion.city} / ${suggestion.country}`);
         updateData(suggestion.id);
         setSuggestions([]);
@@ -77,13 +78,14 @@ export default function Home() {
                         type="text"
                         value={name}
                         onChange={e => nameChanged(e.target.value)}
-                        onBlur={() => setSuggestions([])}
                     />
+                    {suggestions && suggestions.map((suggestion, i) =>
+                        <div className="suggestion"
+                             key={i}
+                             onClick={() => suggestionHandler(suggestion)}>{suggestion.city} / {suggestion.country}</div>
+                    )}
                 </label>
-                {suggestions && suggestions.map((suggestion, i) =>
-                    <div className="suggestion"
-                         onClick={() => suggestionHandler(suggestion)}>{suggestion.city} / {suggestion.country}</div>
-                )}
+
             </div>
             <div className="row">
                 <div className="mixed-chart">
