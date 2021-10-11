@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from 'next/dynamic';
 
-const Chart = dynamic(() => import('react-apexcharts'), {ssr: false});
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 export default function Home() {
     const [options, setOptions] = useState({
@@ -43,27 +43,27 @@ export default function Home() {
             }, (error) => {
                 setError(error);
             }
-        )
+            )
     }
 
     const nameChanged = (value) => {
+        setName(value);
         let matches = [];
-        if (value.length > 0) {
+        if (value.length > 2) {
             fetch(`/api/autocomplete?name=${value}`)
                 .then(result => result.json())
                 .then(result => {
                     if (result.data.matches) {
                         matches = result.data.matches;
+                        setSuggestions(matches)
                     }
                 });
+        } else {
+            setSuggestions(matches)
         }
-        console.log(matches);
-        setSuggestions(matches)
-        setName(value);
     };
 
     const suggestionHandler = (suggestion) => {
-        console.log(suggestion);
         setName(`${suggestion.city} / ${suggestion.country}`);
         updateData(suggestion.id);
         setSuggestions([]);
@@ -81,8 +81,8 @@ export default function Home() {
                     />
                     {suggestions && suggestions.map((suggestion, i) =>
                         <div className="suggestion"
-                             key={i}
-                             onClick={() => suggestionHandler(suggestion)}>{suggestion.city} / {suggestion.country}</div>
+                            key={i}
+                            onClick={() => suggestionHandler(suggestion)}>{suggestion.city} / {suggestion.country}</div>
                     )}
                 </label>
 

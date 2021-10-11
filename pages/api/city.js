@@ -1,35 +1,52 @@
 const https = require('https')
+const csv = require("csvtojson")
 import * as config from 'config.js'
 
 let database = {}
+let cities = {}
+let init = false
 
 export default async function handler(req, res) {
-    let { city, lat, lng } = req.query
-    city = city.toLowerCase()
+    if (!init) {
+        init = true
+        cities = await csv().fromFile('worldcities.csv')
+    }
+    let { id } = req.query
+    let latlng = id.split('_')
 
-    if (cityCached(city)) {
-        res.status(200).send(database[city])
+    if (cityCached(id)) {
+        res.status(200).send(database[id])
         return
     }
-
-    if (!lat || !lng) {
-        res.status(400).json({
-            error: 'Bad lattitude or longitude',
-        })
-        return
-    }
-    const url = 'https://api.troposphere.io/climate/' + lat + ',' + lng + '?token=' + config.apiKey
-    await getDataFromAPI(city, url, res)
+    const url = 'https://api.troposphere.io/climate/' + latlng[0] + ',' + latlng[1] + '?token=' + config.apiKey
+    await getDataFromAPI(id, url, res)
 }
 
-function cityCached(city) {
-    if (city in database) {
+function cacheCity(id, json) {
+    const latlng = id.split('_')
+    const lat = latlng[0]
+    const lng = latlng[1]
+
+    try {
+        for (var index in cities) {
+            let entry = cities[index]
+            if (entry.lat === lat && entry.lng === lng) {
+                json.data.city = entry.city
+                database[id] = json
+                throw 'break'
+            }
+        }
+    } catch { }
+}
+
+function cityCached(id, json) {
+    if (id in database) {
         return true
     }
     return false
 }
 
-async function getDataFromAPI(city, url, res) {
+async function getDataFromAPI(id, url, res) {
     return new Promise(resolve => {
         https.get(url, response => {
             let data = ''
@@ -40,9 +57,8 @@ async function getDataFromAPI(city, url, res) {
 
             response.on('end', () => {
                 let json = JSON.parse(data)
-                json.data.city = city
-                res.status(200).json(json)
-                database[city] = json
+                cacheCity(id, json)
+                res.status(200).json(database[id])
                 Promise.resolve();
             })
 
