@@ -8,7 +8,7 @@ let { serverRuntimeConfig } = getConfig()
 
 let citiesCache = serverRuntimeConfig.citiesCache
 let cacheCount = 0
-let log_file
+let log_file = fs.createWriteStream('debug.log', { flags: 'a' })
 
 export default async function handler(req, res) {
 
