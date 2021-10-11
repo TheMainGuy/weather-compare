@@ -22,50 +22,38 @@ export default function Home() {
         },
     });
     const [series, setSeries] = useState([]);
-    const [autocompletes, setAutocompletes] = useState(['autocomplete-0']);
-    const [autocompleteRenders, setAutocompleteRenders] = useState([]);
+    const [cityRenders, setCityRenders] = useState([]);
 
-    const addAutocomplete = () => {
-        setAutocompletes([...autocompletes, 'autocomplete']);
-        setSeries([...series, {
-            name: "",
-            data: []
-        }]);
-    };
-    const removeAutocomplete = (index) => {
-        setAutocompletes([...autocompletes.slice(0, index), ...autocompletes.slice(index + 1)]);
+    const removeCity = (index) => {
         setSeries([...series.slice(0, index), ...series.slice(index + 1)]);
     };
 
     useEffect(() => {
-        setAutocompleteRenders(
-            autocompletes.map((autocomplete, index) =>
-                <div className="row" key={`row-${index}`}>
-                    <AutocompleteTest id={`autocomplete-${index}`}
-                                      index={index}
-                                      series={series}
-                                      setSeries={setSeries}
-                    />
+        setCityRenders(
+            series.map((series, index) =>
+                <div key={`row-${index}`}>
                     <Button onClick={() => {
-                        removeAutocomplete(index);
-                    }}>
-                        Remove
+                                removeCity(index)
+                            }}
+                    >
+                        Remove {series.name}
                     </Button>
                 </div>
             )
         )
-    }, [autocompletes])
+    }, [series])
 
     return (
         <div className="app">
             <div className="container">
-                {autocompleteRenders}
+                {cityRenders}
+                <div className="row" >
+                    <AutocompleteTest series={series}
+                                      setSeries={setSeries}
+                    />
+                </div>
                 <div className="row">
-                    <Button onClick={() => {
-                        addAutocomplete();
-                    }}>
-                        Add another
-                    </Button>
+                    {}
                 </div>
                 <div className="row">
                     <div className="mixed-chart">
