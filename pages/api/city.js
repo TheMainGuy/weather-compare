@@ -1,13 +1,15 @@
 const https = require('https')
 const fs = require('fs');
+const util = require('util');
 import * as config from 'config.js'
 
 let citiesCache = {}
 let cacheCount = 0
-let cacheLoaded = false
+let initDone = false
+let log_file, log_stdout
 
 export default async function handler(req, res) {
-    loadCache()
+    initServer()
     let { id } = req.query
     let splitId = id.split('_')
     let lat = splitId[1]
@@ -17,6 +19,7 @@ export default async function handler(req, res) {
         res.status(200).send(citiesCache[id])
         return
     }
+
     const url = 'https://api.troposphere.io/climate/' + lat + ',' + lng + '?token=' + config.apiKey
     await getDataFromAPI(id, url, res)
 }
@@ -29,14 +32,17 @@ function cacheCity(id, json) {
     saveCache()
 }
 
-function loadCache() {
-    if (cacheLoaded) {
+function initServer() {
+    if (initDone) {
         return
     }
-    cacheLoaded = true
+    initDone = true
+
+    log_file = fs.createWriteStream('/debug.log', { flags: 'w' })
+    log_stdout = process.stdout
+
     citiesCache = JSON.parse(fs.readFileSync(config.cacheFile, 'utf8'))
-    console.log('Loaded cache:')
-    console.log(citiesCache)
+    console.log('Loaded cache:\n' + citiesCache)
 }
 
 function saveCache() {
@@ -44,17 +50,12 @@ function saveCache() {
     if (cacheCount === config.cacheSaveInterval) {
         cacheCount = 0
         fs.writeFile(config.cacheFile, JSON.stringify(citiesCache), function (err) {
-            if (err) return console.log(err)
-            console.log('Saved cache')
+            if (err) {
+                return console.log(err)
+            }
+            console.log('Saved cities cache to ' + config.cacheFile)
         })
     }
-}
-
-function cityCached(id) {
-    if (id in citiesCache) {
-        return true
-    }
-    return false
 }
 
 async function getDataFromAPI(id, url, res) {
@@ -80,4 +81,10 @@ async function getDataFromAPI(id, url, res) {
             Promise.resolve()
         })
     })
+}
+
+console.log = function (data) {
+    const logTime = new Date().toISOString()
+    log_file.write(logTime + ' - ' + util.format(data) + '\n');
+    log_stdout.write(logTime + ' - ' - util.format(data) + '\n');
 }
