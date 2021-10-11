@@ -49,7 +49,7 @@ export default function Home() {
     const nameChanged = (value) => {
         let matches = [];
         if (value.length > 0) {
-            fetch(`/api/autocomplete=${value}`)
+            fetch(`/api/autocomplete?name=${value}`)
                 .then(result => result.json())
                 .then(result => {
                     if (result.data.matches) {
