@@ -36,7 +36,6 @@ function cityCached(id) {
     return false
 }
 
-
 function cacheCity(id, json) {
     let splitId = id.split('_')
     let name = splitId[0]
@@ -44,15 +43,6 @@ function cacheCity(id, json) {
     citiesCache[id] = json
     log('Added city ' + id + ' to cities cache.')
     saveCache()
-}
-
-function initServer() {
-    initDone = true
-
-    log_file = fs.createWriteStream('debug.log', { flags: 'a' })
-
-    citiesCache = JSON.parse(fs.readFileSync(config.cacheFile, 'utf8'))
-    log('Loaded cities cache from: ' + config.cacheFile)
 }
 
 function saveCache() {
@@ -91,6 +81,19 @@ async function getDataFromAPI(id, url, res) {
             Promise.resolve()
         })
     })
+}
+
+function initServer() {
+    initDone = true
+
+    log_file = fs.createWriteStream('debug.log', { flags: 'a' })
+    let initLog = 'Initialized server with the following settings:\n' +
+        'Cache file: ' + config.cacheFile + '\n' +
+        'Cache save interval: ' + config.cacheSaveInterval
+    log(initLog)
+
+    citiesCache = JSON.parse(fs.readFileSync(config.cacheFile, 'utf8'))
+    log('Loaded cities cache from: ' + config.cacheFile)
 }
 
 function log(data) {
