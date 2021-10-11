@@ -9,6 +9,10 @@ export default async function handler(req, res) {
         cities = await csv().fromFile('worldcities.csv')
     }
     let name = req.query.name
+    if (name.length <= 2) {
+        res.status(400).end('')
+        return
+    }
     let json = {
         data: {
             matches: []
