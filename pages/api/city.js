@@ -9,16 +9,21 @@ let initDone = false
 let log_file
 
 export default async function handler(req, res) {
-    initServer()
+
+    if (!initDone) {
+        initServer()
+    }
+
     let { id } = req.query
-    let splitId = id.split('_')
-    let lat = splitId[1]
-    let lng = splitId[2]
 
     if (cityCached(id)) {
         res.status(200).send(citiesCache[id])
         return
     }
+
+    let splitId = id.split('_')
+    let lat = splitId[1]
+    let lng = splitId[2]
 
     const url = 'https://api.troposphere.io/climate/' + lat + ',' + lng + '?token=' + config.apiKey
     await getDataFromAPI(id, url, res)
@@ -42,9 +47,6 @@ function cacheCity(id, json) {
 }
 
 function initServer() {
-    if (initDone) {
-        return
-    }
     initDone = true
 
     log_file = fs.createWriteStream('debug.log', { flags: 'a' })
