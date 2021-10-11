@@ -6,7 +6,7 @@ import * as config from 'config.js'
 let citiesCache = {}
 let cacheCount = 0
 let initDone = false
-let log_file, log_stdout
+let log_file
 
 export default async function handler(req, res) {
     initServer()
@@ -24,11 +24,20 @@ export default async function handler(req, res) {
     await getDataFromAPI(id, url, res)
 }
 
+function cityCached(id) {
+    if (id in citiesCache) {
+        return true
+    }
+    return false
+}
+
+
 function cacheCity(id, json) {
     let splitId = id.split('_')
     let name = splitId[0]
     json.data.city = name
     citiesCache[id] = json
+    log('Added city ' + id + ' to cities cache.')
     saveCache()
 }
 
@@ -38,11 +47,10 @@ function initServer() {
     }
     initDone = true
 
-    log_file = fs.createWriteStream('/debug.log', { flags: 'w' })
-    log_stdout = process.stdout
+    log_file = fs.createWriteStream('debug.log', { flags: 'a' })
 
     citiesCache = JSON.parse(fs.readFileSync(config.cacheFile, 'utf8'))
-    console.log('Loaded cache:\n' + citiesCache)
+    log('Loaded cities cache from: ' + config.cacheFile)
 }
 
 function saveCache() {
@@ -51,9 +59,9 @@ function saveCache() {
         cacheCount = 0
         fs.writeFile(config.cacheFile, JSON.stringify(citiesCache), function (err) {
             if (err) {
-                return console.log(err)
+                return log(err)
             }
-            console.log('Saved cities cache to ' + config.cacheFile)
+            log('Saved cities cache to ' + config.cacheFile)
         })
     }
 }
@@ -83,8 +91,10 @@ async function getDataFromAPI(id, url, res) {
     })
 }
 
-console.log = function (data) {
-    const logTime = new Date().toISOString()
-    log_file.write(logTime + ' - ' + util.format(data) + '\n');
-    log_stdout.write(logTime + ' - ' - util.format(data) + '\n');
+function log(data) {
+    let logTime = new Date().toISOString()
+    logTime = logTime.replace('T', ' ').replace('Z', '')
+    const logEntry = logTime + ' - ' + util.format(data)
+    log_file.write(logEntry + '\n')
+    console.log(logEntry)
 }
