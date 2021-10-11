@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
 
 const Chart = dynamic(() => import('react-apexcharts'), {ssr: false});
 
@@ -21,12 +21,17 @@ export default function Home() {
     });
     const [series, setSeries] = useState([]);
     const [error, setError] = useState("");
+    const [name, setName] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
 
-    useEffect(() => {
-        fetch("/api/city?lat=46.8&lng=14&city=test")
+    // useEffect(() => {
+    //     updateData('nekiGrad')
+    // }, [])
+
+    const updateData = (hash) => {
+        fetch(`/api/city?id=${hash}`)
             .then(res => res.json()).then((result) => {
                 const data = result.data;
-                console.log(JSON.stringify(result));
                 setSeries(
                     [
                         {
@@ -39,10 +44,47 @@ export default function Home() {
                 setError(error);
             }
         )
-    }, [])
+    }
+
+    const nameChanged = (value) => {
+        let matches = [];
+        if (value.length > 0) {
+            fetch(`/api/autocomplete=${value}`)
+                .then(result => result.json())
+                .then(result => {
+                    if (result.data.matches) {
+                        matches = result.data.matches;
+                    }
+                });
+        }
+        console.log(matches);
+        setSuggestions(matches)
+        setName(value);
+    };
+
+    const suggestionHandler = (suggestion) => {
+        setName(`${suggestion.city} / ${suggestion.country}`);
+        updateData(suggestion.id);
+        setSuggestions([]);
+    }
 
     return (
         <div className="app">
+            <div className="row">
+                <label>
+                    City Name:
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={e => nameChanged(e.target.value)}
+                        onBlur={() => setSuggestions([])}
+                    />
+                </label>
+                {suggestions && suggestions.map((suggestion, i) =>
+                    <div className="suggestion"
+                         onClick={() => suggestionHandler(suggestion)}>{suggestion.city} / {suggestion.country}</div>
+                )}
+            </div>
             <div className="row">
                 <div className="mixed-chart">
                     <Chart
