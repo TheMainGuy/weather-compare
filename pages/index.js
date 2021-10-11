@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import dynamic from 'next/dynamic';
 import AutocompleteTest from '../components/AutocompleteTest';
-import Button from '@mui/material/Button';
+import RemoveCityButton from '../components/RemoveCityButton';
 
 const Chart = dynamic(() => import('react-apexcharts'), {ssr: false});
 
@@ -22,50 +22,35 @@ export default function Home() {
         },
     });
     const [series, setSeries] = useState([]);
-    const [autocompletes, setAutocompletes] = useState(['autocomplete-0']);
-    const [autocompleteRenders, setAutocompleteRenders] = useState([]);
+    const [cityRenders, setCityRenders] = useState([]);
 
-    const addAutocomplete = () => {
-        setAutocompletes([...autocompletes, 'autocomplete']);
-        setSeries([...series, {
-            name: "",
-            data: []
-        }]);
-    };
-    const removeAutocomplete = (index) => {
-        setAutocompletes([...autocompletes.slice(0, index), ...autocompletes.slice(index + 1)]);
+    const removeCity = (index) => {
         setSeries([...series.slice(0, index), ...series.slice(index + 1)]);
     };
 
     useEffect(() => {
-        setAutocompleteRenders(
-            autocompletes.map((autocomplete, index) =>
-                <div className="row" key={`row-${index}`}>
-                    <AutocompleteTest id={`autocomplete-${index}`}
+        setCityRenders(
+            series.map((series, index) =>
+                <div key={`row-${index}`}>
+                    <RemoveCityButton city={series.name}
                                       index={index}
-                                      series={series}
-                                      setSeries={setSeries}
+                                      removeCity={removeCity}
                     />
-                    <Button onClick={() => {
-                        removeAutocomplete(index);
-                    }}>
-                        Remove
-                    </Button>
                 </div>
             )
         )
-    }, [autocompletes])
+    }, [series])
 
     return (
         <div className="app">
             <div className="container">
-                {autocompleteRenders}
                 <div className="row">
-                    <Button onClick={() => {
-                        addAutocomplete();
-                    }}>
-                        Add another
-                    </Button>
+                    <AutocompleteTest series={series}
+                                      setSeries={setSeries}
+                    />
+                </div>
+                <div className="row remove-buttons">
+                    {cityRenders}
                 </div>
                 <div className="row">
                     <div className="mixed-chart">

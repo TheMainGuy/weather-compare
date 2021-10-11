@@ -33,3 +33,9 @@ code {
   justify-content: center;
   align-items: center;
 }
+
+.remove-buttons {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+}
