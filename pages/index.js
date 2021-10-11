@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import dynamic from 'next/dynamic';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
 import AutocompleteTest from '../components/AutocompleteTest';
+import Button from '@mui/material/Button';
 
-const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+const Chart = dynamic(() => import('react-apexcharts'), {ssr: false});
 
 export default function Home() {
     const [options, setOptions] = useState({
@@ -23,82 +22,61 @@ export default function Home() {
         },
     });
     const [series, setSeries] = useState([]);
-    const [error, setError] = useState("");
-    const [name, setName] = useState("");
-    const [suggestions, setSuggestions] = useState([]);
+    const [autocompletes, setAutocompletes] = useState(['autocomplete-0']);
+    const [autocompleteRenders, setAutocompleteRenders] = useState([]);
 
-
-    const updateData = (hash) => {
-        fetch(`/api/city?id=${hash}`)
-            .then(res => res.json()).then((result) => {
-                const data = result.data;
-                setSeries(
-                    [
-                        {
-                            name: data.city,
-                            data: data.monthly.map(month => Math.round(month.temperatureMax))
-                        }
-                    ]
-                )
-            }, (error) => {
-                setError(error);
-            }
-            )
-    }
-
-    const nameChanged = (value) => {
-        setName(value);
-        let matches = [];
-        if (value.length > 2) {
-            fetch(`/api/autocomplete?name=${value}`)
-                .then(result => result.json())
-                .then(result => {
-                    if (result.data.matches) {
-                        matches = result.data.matches;
-                        setSuggestions(matches)
-                    }
-                });
-        } else {
-            setSuggestions(matches)
-        }
+    const addAutocomplete = () => {
+        setAutocompletes([...autocompletes, 'autocomplete']);
+        setSeries([...series, {
+            name: "",
+            data: []
+        }]);
+    };
+    const removeAutocomplete = (index) => {
+        setAutocompletes([...autocompletes.slice(0, index), ...autocompletes.slice(index + 1)]);
+        setSeries([...series.slice(0, index), ...series.slice(index + 1)]);
     };
 
-    const suggestionHandler = (suggestion) => {
-        setName(`${suggestion.city} / ${suggestion.country}`);
-        updateData(suggestion.id);
-        setSuggestions([]);
-    }
+    useEffect(() => {
+        setAutocompleteRenders(
+            autocompletes.map((autocomplete, index) =>
+                <div className="row" key={`row-${index}`}>
+                    <AutocompleteTest id={`autocomplete-${index}`}
+                                      index={index}
+                                      series={series}
+                                      setSeries={setSeries}
+                    />
+                    <Button onClick={() => {
+                        removeAutocomplete(index);
+                    }}>
+                        Remove
+                    </Button>
+                </div>
+            )
+        )
+    }, [autocompletes])
 
     return (
         <div className="app">
-            <div className="row">
-                <AutocompleteTest setSeries={setSeries}
-                />
-            </div>
-            <div className="row">
-                <label>
-                    City Name:
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={e => nameChanged(e.target.value)}
-                    />
-                    {suggestions && suggestions.map((suggestion, i) =>
-                        <div className="suggestion"
-                            key={i}
-                            onClick={() => suggestionHandler(suggestion)}>{suggestion.city} / {suggestion.country}</div>
-                    )}
-                </label>
+            <div className="container">
+                {autocompleteRenders}
+                <div className="row">
+                    <Button onClick={() => {
+                        addAutocomplete();
+                    }}>
+                        Add another
+                    </Button>
+                </div>
+                <div className="row">
+                    <div className="mixed-chart">
+                        <Chart
+                            options={options}
+                            series={series}
+                            type="line"
+                            width="1000"
+                        />
+                    </div>
 
-            </div>
-            <div className="row">
-                <div className="mixed-chart">
-                    <Chart
-                        options={options}
-                        series={series}
-                        type="line"
-                        width="1000"
-                    />
                 </div>
             </div>
         </div>

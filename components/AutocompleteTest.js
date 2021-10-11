@@ -10,7 +10,7 @@ function sleep(delay = 0) {
 }
 
 export default function Asynchronous(props) {
-    const {setSeries} = props;
+    const {index, series, setSeries} = props;
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
@@ -41,18 +41,20 @@ export default function Asynchronous(props) {
         }
     }, [open]);
 
+    const updateSeries = (value) => {
+        let newValue = [...series.slice(0, index), value, ...series.slice(index + 1)];
+        setSeries(newValue);
+    }
     const citySelected = (city) => {
         if (!city) {return;}
         fetch(`/api/city?id=${city.id}`)
             .then(res => res.json()).then((result) => {
                 const data = result.data;
-                setSeries(
-                    [
-                        {
-                            name: data.city,
-                            data: data.monthly.map(month => Math.round(month.temperatureMax))
-                        }
-                    ]
+                updateSeries(
+                    {
+                        name: data.city,
+                        data: data.monthly.map(month => Math.round(month.temperatureMax))
+                    }
                 )
             }, (error) => {
                 setError(error);
