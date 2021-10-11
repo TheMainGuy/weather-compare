@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import dynamic from 'next/dynamic';
 import AutocompleteTest from '../components/AutocompleteTest';
-import Button from '@mui/material/Button';
+import RemoveCityButton from '../components/RemoveCityButton';
 
 const Chart = dynamic(() => import('react-apexcharts'), {ssr: false});
 
@@ -32,12 +32,10 @@ export default function Home() {
         setCityRenders(
             series.map((series, index) =>
                 <div key={`row-${index}`}>
-                    <Button onClick={() => {
-                                removeCity(index)
-                            }}
-                    >
-                        Remove {series.name}
-                    </Button>
+                    <RemoveCityButton city={series.name}
+                                      index={index}
+                                      removeCity={removeCity}
+                    />
                 </div>
             )
         )
@@ -46,14 +44,13 @@ export default function Home() {
     return (
         <div className="app">
             <div className="container">
-                {cityRenders}
-                <div className="row" >
+                <div className="row">
                     <AutocompleteTest series={series}
                                       setSeries={setSeries}
                     />
                 </div>
-                <div className="row">
-                    {}
+                <div className="row remove-buttons">
+                    {cityRenders}
                 </div>
                 <div className="row">
                     <div className="mixed-chart">
