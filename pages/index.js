@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import dynamic from 'next/dynamic';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import AutocompleteTest from '../components/AutocompleteTest';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -24,9 +27,6 @@ export default function Home() {
     const [name, setName] = useState("");
     const [suggestions, setSuggestions] = useState([]);
 
-    // useEffect(() => {
-    //     updateData('nekiGrad')
-    // }, [])
 
     const updateData = (hash) => {
         fetch(`/api/city?id=${hash}`)
@@ -71,6 +71,10 @@ export default function Home() {
 
     return (
         <div className="app">
+            <div className="row">
+                <AutocompleteTest setSeries={setSeries}
+                />
+            </div>
             <div className="row">
                 <label>
                     City Name:
