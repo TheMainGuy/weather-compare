@@ -1,48 +1,57 @@
 const https = require('https')
-const csv = require("csvtojson")
+const fs = require('fs');
 import * as config from 'config.js'
 
-let database = {}
-let cities = {}
-let init = false
+let citiesCache = {}
+let cacheCount = 0
+let cacheLoaded = false
 
 export default async function handler(req, res) {
-
-    if (!init) {
-        init = true
-        cities = await csv().fromFile('worldcities.csv')
-    }
-
+    loadCache()
     let { id } = req.query
-    let latlng = id.split('_')
+    let splitId = id.split('_')
+    let lat = splitId[1]
+    let lng = splitId[2]
 
     if (cityCached(id)) {
-        res.status(200).send(database[id])
+        res.status(200).send(citiesCache[id])
         return
     }
-    const url = 'https://api.troposphere.io/climate/' + latlng[0] + ',' + latlng[1] + '?token=' + config.apiKey
+    const url = 'https://api.troposphere.io/climate/' + lat + ',' + lng + '?token=' + config.apiKey
     await getDataFromAPI(id, url, res)
 }
 
 function cacheCity(id, json) {
-    const latlng = id.split('_')
-    const lat = latlng[0]
-    const lng = latlng[1]
+    let splitId = id.split('_')
+    let name = splitId[0]
+    json.data.city = name
+    citiesCache[id] = json
+    saveCache()
+}
 
-    try {
-        for (var index in cities) {
-            let entry = cities[index]
-            if (entry.lat === lat && entry.lng === lng) {
-                json.data.city = entry.city
-                database[id] = json
-                throw 'break'
-            }
-        }
-    } catch { }
+function loadCache() {
+    if (cacheLoaded) {
+        return
+    }
+    cacheLoaded = true
+    citiesCache = JSON.parse(fs.readFileSync(config.cacheFile, 'utf8'))
+    console.log('Loaded cache:')
+    console.log(citiesCache)
+}
+
+function saveCache() {
+    cacheCount++
+    if (cacheCount === config.cacheSaveInterval) {
+        cacheCount = 0
+        fs.writeFile(config.cacheFile, JSON.stringify(citiesCache), function (err) {
+            if (err) return console.log(err)
+            console.log('Saved cache')
+        })
+    }
 }
 
 function cityCached(id) {
-    if (id in database) {
+    if (id in citiesCache) {
         return true
     }
     return false
@@ -60,7 +69,7 @@ async function getDataFromAPI(id, url, res) {
             response.on('end', () => {
                 let json = JSON.parse(data)
                 cacheCity(id, json)
-                res.status(200).json(database[id])
+                res.status(200).json(citiesCache[id])
                 Promise.resolve();
             })
 
