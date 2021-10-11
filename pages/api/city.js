@@ -1,18 +1,16 @@
 const https = require('https')
-const fs = require('fs');
-const util = require('util');
+const fs = require('fs')
+const util = require('util')
 import * as config from 'config.js'
+import getConfig from 'next/config'
 
-let citiesCache = {}
+let { serverRuntimeConfig } = getConfig()
+
+let citiesCache = serverRuntimeConfig.citiesCache
 let cacheCount = 0
-let initDone = false
 let log_file
 
 export default async function handler(req, res) {
-
-    if (!initDone) {
-        initServer()
-    }
 
     let { id } = req.query
 
@@ -81,19 +79,6 @@ async function getDataFromAPI(id, url, res) {
             Promise.resolve()
         })
     })
-}
-
-function initServer() {
-    initDone = true
-
-    log_file = fs.createWriteStream('debug.log', { flags: 'a' })
-    let initLog = 'Initialized server with the following settings:\n' +
-        'Cache file: ' + config.cacheFile + '\n' +
-        'Cache save interval: ' + config.cacheSaveInterval
-    log(initLog)
-
-    citiesCache = JSON.parse(fs.readFileSync(config.cacheFile, 'utf8'))
-    log('Loaded cities cache from: ' + config.cacheFile)
 }
 
 function log(data) {
