@@ -39,3 +39,7 @@ code {
   display: flex;
   align-items: center;
 }
+
+.remove-city-button {
+  margin: 0 1rem;
+}
