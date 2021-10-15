@@ -12,7 +12,9 @@ log('Logfile path: ' + logFile)
 let cacheFile
 try {
     cacheFile = fs.realpathSync('cache.json')
-} catch { }
+} catch {
+    fs.appendFileSync('cache.json', '{}')
+}
 
 let citiesCSV
 try {
