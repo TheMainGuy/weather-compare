@@ -24,6 +24,6 @@ function log(data) {
     let logTime = new Date().toISOString()
     logTime = logTime.replace('T', ' ').replace('Z', '')
     const logEntry = logTime + ' - ' + util.format(data)
-    fs.appendFile(logFile, logEntry + '\n', () => { })
+    fs.appendFileSync(logFile, logEntry + '\n', () => { })
     console.log(logEntry)
 }
