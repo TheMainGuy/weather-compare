@@ -6,7 +6,7 @@ let init = false
 export default async function handler(req, res) {
     if (!init) {
         init = true
-        cities = await csv().fromFile('worldcities.csv')
+        cities = await csv().fromFile('./worldcities.csv')
     }
     let name = req.query.name
     if (name.length <= 2) {
