@@ -12,6 +12,8 @@ export default async function handler(req, res) {
         init = true
         try {
             cities = await csv().fromFile(config.citiesCSV)
+            res.end('Loading cities file...')
+            return
         } catch (error) {
             res.status(500).end('Error')
             return
