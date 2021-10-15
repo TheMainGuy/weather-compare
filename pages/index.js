@@ -48,7 +48,7 @@ export default function Home() {
     useEffect(() => {
         setCityRenders(
             series.map((series, index) =>
-                <div key={`row-${index}`}>
+                <div key={`row-${index}`} className="remove-city-button">
                     <RemoveCityButton city={series.name}
                                       index={index}
                                       removeCity={removeCity}

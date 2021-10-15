@@ -9,7 +9,6 @@ export default function RemoveCityButton(props) {
         <Button
             variant="outlined"
             startIcon={<DeleteIcon/>}
-            className="remove-city-button"
             color="error"
             onClick={() => {
                 removeCity(index)
