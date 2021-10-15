@@ -7,8 +7,10 @@ export default async function handler(req, res) {
     if (!init) {
         init = true
         try {
+            console.log("test")
             cities = await csv().fromFile('./worldcities.csv')
         } catch (error) {
+            console.log(error)
             res.status(500).end(error)
             return
         }
