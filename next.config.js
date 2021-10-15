@@ -2,7 +2,6 @@ const fs = require('fs')
 const config = require('./config.js')
 const util = require('util')
 
-log_file = fs.createWriteStream('debug.log', { flags: 'a' })
 let initLog = 'Initialized server with the following settings:\n' +
     'Cache file: ' + config.cacheFile + '\n' +
     'Cache save interval: ' + config.cacheSaveInterval
@@ -15,12 +14,12 @@ function log(data) {
     let logTime = new Date().toISOString()
     logTime = logTime.replace('T', ' ').replace('Z', '')
     const logEntry = logTime + ' - ' + util.format(data)
-    log_file.write(logEntry + '\n')
+    fs.appendFileSync(config.logFile, logEntry + '\n', () => { })
     console.log(logEntry)
 }
-
 module.exports = {
     serverRuntimeConfig: {
+        config: config,
         citiesCache: citiesCache
     }
 }

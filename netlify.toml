@@ -1,3 +1,7 @@
 [build]
   command = "npm run build"
   publish = "out"
+
+# Include all files in all functions
+[functions]
+  included_files = ["debug.log", "worldcities.csv", "cache.json"]

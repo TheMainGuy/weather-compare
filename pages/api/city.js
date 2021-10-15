@@ -1,14 +1,14 @@
 const https = require('https')
 const fs = require('fs')
 const util = require('util')
-import * as config from 'config.js'
 import getConfig from 'next/config'
 
 let { serverRuntimeConfig } = getConfig()
+const config = serverRuntimeConfig.config
 
 let citiesCache = serverRuntimeConfig.citiesCache
 let cacheCount = 0
-let log_file = fs.createWriteStream('debug.log', { flags: 'a' })
+let log_file = fs.createWriteStream(config.logFile, { flags: 'a' })
 
 export default async function handler(req, res) {
 
