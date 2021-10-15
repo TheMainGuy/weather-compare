@@ -2,7 +2,7 @@ const fs = require('fs')
 const config = require('./config.js')
 const util = require('util')
 
-log_file = fs.createWriteStream('debug.log', { flags: 'a' })
+log_file = fs.createWriteStream(config.logFile, { flags: 'a' })
 let initLog = 'Initialized server with the following settings:\n' +
     'Cache file: ' + config.cacheFile + '\n' +
     'Cache save interval: ' + config.cacheSaveInterval
