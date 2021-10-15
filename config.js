@@ -5,6 +5,7 @@ let log_file = fs.createWriteStream('debug.log', { flags: 'a' })
 log('Open or create debug.log file.')
 
 const logFile = fs.realpathSync('debug.log')
+log(logFile)
 let cacheFile
 try {
     cacheFile = fs.realpathSync('cache.json')
