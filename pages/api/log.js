@@ -1,8 +1,10 @@
 const fs = require('fs')
-const config = require('../../config.js')
+import getConfig from 'next/config'
+
+let { serverRuntimeConfig } = getConfig()
+const config = serverRuntimeConfig.config
 
 export default async function handler(req, res) {
-    res.end(config.logFile)
     try {
         let content = fs.readFileSync(config.logFile, 'utf8')
         res.status(200).end(content)
