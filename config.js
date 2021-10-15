@@ -1,4 +1,5 @@
 const fs = require('fs')
+const util = require('util')
 
 let log_file = fs.createWriteStream('debug.log', { flags: 'a' })
 log('Open or create debug.log file.')
