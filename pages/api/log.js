@@ -3,7 +3,13 @@ const config = require('../../config.js')
 
 export default async function handler(req, res) {
     try {
-        let content = fs.readFileSync(config.logFile, 'utf8')
+        let content = ''
+        fs.readdir('./', (err, files) => {
+            files.forEach(file => {
+                content += file + '\n'
+            })
+        })
+        content += fs.readFileSync(config.logFile, 'utf8')
         res.status(200).end(content)
     } catch {
         res.status(500).end('There was a problem when trying to read the logfile.')

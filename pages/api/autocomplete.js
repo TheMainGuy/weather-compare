@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     }
     for (var index in cities) {
         let entry = cities[index]
-        if (entry.city.toLowerCase().startsWith(name.toLowerCase())) {
+        if (entry.city.toString().toLowerCase().startsWith(name.toString().toLowerCase())) {
             let match = {}
             match.city = entry.city
             match.country = entry.country
