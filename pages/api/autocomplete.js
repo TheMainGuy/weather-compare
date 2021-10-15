@@ -9,7 +9,7 @@ export default async function handler(req, res) {
         try {
             cities = await csv().fromFile('../../worldcities.csv')
         } catch (error) {
-            res.status(500).end(error.toString())
+            res.status(500).end('Error')
             return
         }
     }
