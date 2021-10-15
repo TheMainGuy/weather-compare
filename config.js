@@ -1,11 +1,13 @@
 const fs = require('fs')
 const util = require('util')
 
-let log_file = fs.createWriteStream('debug.log', { flags: 'a' })
-await log('Open or create debug.log file.')
+let initTime = new Date().toISOString()
+initTime = initTime.replace('T', ' ').replace('Z', '')
+const initEntry = initTime + ' - ' + util.format('Open or create log file.')
+fs.appendFileSync('debug.log', initEntry + '\n')
 
 const logFile = fs.realpathSync('debug.log')
-await log(logFile)
+log('Logfile path: ' + logFile)
 let cacheFile
 try {
     cacheFile = fs.realpathSync('cache.json')
@@ -18,10 +20,10 @@ module.exports = {
     cacheSaveInterval: 8
 }
 
-async function log(data) {
+function log(data) {
     let logTime = new Date().toISOString()
     logTime = logTime.replace('T', ' ').replace('Z', '')
     const logEntry = logTime + ' - ' + util.format(data)
-    await log_file.write(logEntry + '\n')
+    fs.appendFile(logFile, logEntry + '\n', () => { })
     console.log(logEntry)
 }
