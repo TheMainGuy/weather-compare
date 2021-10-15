@@ -1,4 +1,8 @@
 const csv = require("csvtojson")
+import getConfig from 'next/config'
+
+let { serverRuntimeConfig } = getConfig()
+const config = serverRuntimeConfig.config
 
 let cities = {}
 let init = false
@@ -7,7 +11,7 @@ export default async function handler(req, res) {
     if (!init) {
         init = true
         try {
-            cities = await csv().fromFile('../../worldcities.csv')
+            cities = await csv().fromFile(config.citiesCSV)
         } catch (error) {
             res.status(500).end('Error')
             return
