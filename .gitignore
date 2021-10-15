@@ -33,4 +33,4 @@ yarn-error.log*
 
 yarn.lock
 debug.log
-# cache.json
+cache.json
