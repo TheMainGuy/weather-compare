@@ -12,6 +12,14 @@ const Chart = dynamic(() => import('react-apexcharts'), {ssr: false});
 
 export default function Home() {
     const theme = useTheme();
+    useEffect(() => {
+        setOptions({
+            ...options,
+            theme: {
+                mode: theme.palette.mode
+            }
+        })
+    }, [theme]);
     const [options, setOptions] = useState({
         chart: {
             id: "basic-bar",
