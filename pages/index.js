@@ -2,10 +2,16 @@ import React, {useState, useEffect} from "react";
 import dynamic from 'next/dynamic';
 import AutocompleteTest from '../components/AutocompleteTest';
 import RemoveCityButton from '../components/RemoveCityButton';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import ToggleColorMode from '../components/ToggleColorMode';
+import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
 
 const Chart = dynamic(() => import('react-apexcharts'), {ssr: false});
 
+
 export default function Home() {
+    const theme = useTheme();
     const [options, setOptions] = useState({
         chart: {
             id: "basic-bar",
@@ -20,6 +26,9 @@ export default function Home() {
         markers: {
             size: 5,
         },
+        theme: {
+            mode: theme.palette.mode
+        }
     });
     const [series, setSeries] = useState([]);
     const [cityRenders, setCityRenders] = useState([]);
@@ -42,29 +51,40 @@ export default function Home() {
     }, [series])
 
     return (
-        <div className="app">
-            <div className="container">
-                <div className="row">
-                    <AutocompleteTest series={series}
-                                      setSeries={setSeries}
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: 'background.default',
+                color: 'text.primary',
+                borderRadius: 1,
+                p: 3,
+            }}
+        >
+            <ToggleColorMode/>
+            <div className="row">
+                <AutocompleteTest series={series}
+                                  setSeries={setSeries}
+                />
+            </div>
+            <div className="row remove-buttons">
+                {cityRenders}
+            </div>
+            <div className="row">
+                <div className="mixed-chart">
+                    <Chart
+                        options={options}
+                        series={series}
+                        type="line"
+                        width="1000"
                     />
                 </div>
-                <div className="row remove-buttons">
-                    {cityRenders}
-                </div>
-                <div className="row">
-                    <div className="mixed-chart">
-                        <Chart
-                            options={options}
-                            series={series}
-                            type="line"
-                            width="1000"
-                        />
-                    </div>
 
-                </div>
             </div>
-        </div>
+        </Box>
     );
 
 }

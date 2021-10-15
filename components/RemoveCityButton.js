@@ -7,7 +7,7 @@ export default function RemoveCityButton(props) {
     const [hover, setHover] = useState(false);
     return (
         <Button
-            variant="contained"
+            variant="outlined"
             startIcon={<DeleteIcon/>}
             className="remove-city-button"
             color="error"
