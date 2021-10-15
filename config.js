@@ -18,10 +18,10 @@ module.exports = {
     cacheSaveInterval: 8
 }
 
-function log(data) {
+async function log(data) {
     let logTime = new Date().toISOString()
     logTime = logTime.replace('T', ' ').replace('Z', '')
     const logEntry = logTime + ' - ' + util.format(data)
-    log_file.write(logEntry + '\n')
+    await log_file.write(logEntry + '\n')
     console.log(logEntry)
 }
