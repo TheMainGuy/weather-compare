@@ -2,6 +2,7 @@ const fs = require('fs')
 const config = require('../../config.js')
 
 export default async function handler(req, res) {
+    res.end(config.logFile)
     try {
         let content = fs.readFileSync(config.logFile, 'utf8')
         res.status(200).end(content)
