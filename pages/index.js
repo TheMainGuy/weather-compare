@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react";
 import dynamic from 'next/dynamic';
 import AutocompleteTest from '../components/AutocompleteTest';
 import RemoveCityButton from '../components/RemoveCityButton';
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import ToggleColorMode from '../components/ToggleColorMode';
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
@@ -72,7 +71,9 @@ export default function Home() {
                 p: 3,
             }}
         >
-            <ToggleColorMode/>
+            <div className="toggle">
+                <ToggleColorMode/>
+            </div>
             <div className="row">
                 <AutocompleteTest series={series}
                                   setSeries={setSeries}

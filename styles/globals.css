@@ -50,3 +50,9 @@ code {
 .remove-city-button {
   margin: 0 1rem;
 }
+
+.toggle {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}

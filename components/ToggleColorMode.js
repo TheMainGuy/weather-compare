@@ -14,7 +14,6 @@ export default function MyApp() {
         <Box
             sx={{
                 display: 'flex',
-                width: '100%',
                 alignItems: 'center',
                 justifyContent: 'center',
                 bgcolor: 'background.default',
@@ -23,7 +22,7 @@ export default function MyApp() {
                 p: 3,
             }}
         >
-            {theme.palette.mode} mode
+            {theme.palette.mode === 'light' ? 'Day' : 'Night'}
             <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
                 {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
