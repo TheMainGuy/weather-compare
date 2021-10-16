@@ -12,6 +12,14 @@ const Chart = dynamic(() => import('react-apexcharts'), {ssr: false});
 
 export default function Home() {
     const theme = useTheme();
+    useEffect(() => {
+        setOptions({
+            ...options,
+            theme: {
+                mode: theme.palette.mode
+            }
+        })
+    }, [theme]);
     const [options, setOptions] = useState({
         chart: {
             id: "basic-bar",
@@ -40,7 +48,7 @@ export default function Home() {
     useEffect(() => {
         setCityRenders(
             series.map((series, index) =>
-                <div key={`row-${index}`}>
+                <div key={`row-${index}`} className="remove-city-button">
                     <RemoveCityButton city={series.name}
                                       index={index}
                                       removeCity={removeCity}
