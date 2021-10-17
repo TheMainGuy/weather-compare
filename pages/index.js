@@ -78,7 +78,8 @@ export default function Home() {
                 bgcolor: 'background.default',
                 color: 'text.primary',
                 p: 3,
-                overflowY: 'auto'
+                overflowY: 'auto',
+                overflowX: 'hidden'
             }}
         >
             <div className="toggle-wrapper">
