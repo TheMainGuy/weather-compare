@@ -46,6 +46,7 @@ code {
 .remove-buttons {
   height: 5rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -60,5 +61,6 @@ code {
 }
 
 .mixed-chart {
-  width: 100%
+  width: 100%;
+  height: 100%;
 }

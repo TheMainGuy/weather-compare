@@ -21,7 +21,7 @@ export default function Home() {
     }, [theme]);
     const [options, setOptions] = useState({
         chart: {
-            width: '100%',
+            height: 'auto',
             id: "basic-bar",
             zoom: {
                 enabled: false
@@ -36,7 +36,16 @@ export default function Home() {
         },
         theme: {
             mode: theme.palette.mode
-        }
+        },
+
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    height: '400'
+                }
+            }
+        }],
     });
     const [series, setSeries] = useState([]);
     const [cityRenders, setCityRenders] = useState([]);
@@ -68,7 +77,6 @@ export default function Home() {
                 justifyContent: 'center',
                 bgcolor: 'background.default',
                 color: 'text.primary',
-                borderRadius: 1,
                 p: 3,
             }}
         >
@@ -89,7 +97,6 @@ export default function Home() {
                         options={options}
                         series={series}
                         type="line"
-                        style={{width:'100%'}}
                     />
                 </div>
 

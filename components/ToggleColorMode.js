@@ -19,11 +19,11 @@ export default function MyApp() {
                 bgcolor: 'background.default',
                 color: 'text.primary',
                 borderRadius: 1,
-                p: 3,
             }}
+            onClick={colorMode.toggleColorMode}
         >
-            {theme.palette.mode === 'light' ? 'Day' : 'Night'}
-            <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+            {/*{theme.palette.mode === 'light' ? 'Day' : 'Night'}*/}
+            <IconButton color="inherit">
                 {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
         </Box>
