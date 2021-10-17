@@ -19,11 +19,35 @@ export default async function handler(req, res) {
         let entry = cities[index]
         if (entry.name.toString().toLowerCase().startsWith(name.toString().toLowerCase())) {
             let match = {}
-            match.city = entry.name
+            match.name = entry.name
             match.country = entry.country
+            match.population = entry.population
             match.id = entry.name + '_' + entry.lat + '_' + entry.lng
-            json.data.matches.push(match)
+            if (isDuplicate(entry, json.data.matches) === false) {
+                json.data.matches.push(match)
+            }
         }
     }
     res.status(200).json(json)
+}
+
+function isDuplicate(entry, matches) {
+    for (const match of matches) {
+        if (match.name === entry.name) {
+            if (match.country === entry.country) {
+                let matchIDcomponents = match.id.split('_')
+                let matchLat = Number(matchIDcomponents[1])
+                let matchLng = Number(matchIDcomponents[2])
+
+                let lat = Number(entry.lat)
+                let lng = Number(entry.lng)
+
+                let distance = Math.abs(matchLat - lat) + Math.abs(matchLng - lng)
+                if (distance < 1) {
+                    return true
+                }
+            }
+        }
+    }
+    return false
 }

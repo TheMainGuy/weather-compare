@@ -37,7 +37,7 @@ function cityCached(id) {
 function cacheCity(id, json) {
     let splitId = id.split('_')
     let name = splitId[0]
-    json.data.city = name
+    json.data.name = name
     citiesCache[id] = json
     log('Added city ' + id + ' to cities cache.')
     saveCache()

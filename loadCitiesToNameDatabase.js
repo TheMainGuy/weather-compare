@@ -16,7 +16,8 @@ lineReader.on('line', function (line) {
             name: name,
             country: country,
             lat: lat,
-            lng: lng
+            lng: lng,
+            population: population
         }
         cities.data.push(city)
         /*
