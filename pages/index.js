@@ -81,7 +81,7 @@ export default function Home() {
                 overflowY: 'auto'
             }}
         >
-            <div className="toggle">
+            <div className="toggle-wrapper">
                 <ToggleColorMode/>
             </div>
             <div className="autocomplete-wrapper">
