@@ -55,7 +55,7 @@ export default function Asynchronous(props) {
                 const data = result.data;
                 updateSeries(
                     {
-                        name: data.city,
+                        name: data.name,
                         data: data.monthly.map(month => Math.round(month.temperatureMax))
                     }
                 )
@@ -80,7 +80,7 @@ export default function Asynchronous(props) {
             }}
             value={value}
             isOptionEqualToValue={(option, value) => option.title === value.title}
-            getOptionLabel={(option) => `${option.city} / ${option.country}`}
+            getOptionLabel={(option) => `${option.name} / ${option.country}`}
             onInputChange={(event, value) => inputChanged(value)}
             inputValue={inputValue}
             onChange={(event, value) => citySelected(value)}
@@ -89,7 +89,7 @@ export default function Asynchronous(props) {
             renderOption={(props, option) => {
                 return (
                     <li {...props} key={option.id}>
-                        {`${option.city} / ${option.country}`}
+                        {`${option.name} / ${option.country}`}
                     </li>
                 );
             }}
