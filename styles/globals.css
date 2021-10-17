@@ -7,9 +7,7 @@ body {
     Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-body > div:first-child,
-div#__next,
-div#__next > div {
+div#__next {
   height: 100%;
 }
 
@@ -38,7 +36,6 @@ code {
 }
 
 .graph-wrapper {
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

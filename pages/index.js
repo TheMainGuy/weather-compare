@@ -78,6 +78,7 @@ export default function Home() {
                 bgcolor: 'background.default',
                 color: 'text.primary',
                 p: 3,
+                overflowY: 'auto'
             }}
         >
             <div className="toggle">
