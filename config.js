@@ -22,6 +22,7 @@ try {
 } catch { }
 
 module.exports = {
+    secret: '604daaf4-7ebb-4c7e-9ac1-44d5593c05bc',
     apiKey: '7b20b1b908b9119e34c22a567209746514c8ad610e77d52d5b',
     cacheFile: cacheFile,
     citiesCSV: citiesCSV,
