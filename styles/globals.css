@@ -46,6 +46,7 @@ code {
   width: 100%;
   max-width: 50rem;
   padding-top: 1rem;
+  overflow-y: hidden;
 }
 
 .remove-buttons {
@@ -59,10 +60,12 @@ code {
   margin: 0.5rem 0.5rem 0 0.5rem;
 }
 
-.toggle {
+.toggle-wrapper {
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  max-width: 50rem;
+  margin-bottom: 1rem;
 }
 
 .mixed-chart {
