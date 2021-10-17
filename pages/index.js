@@ -83,7 +83,7 @@ export default function Home() {
             <div className="toggle">
                 <ToggleColorMode/>
             </div>
-            <div className="row">
+            <div className="autocomplete-wrapper">
                 <AutocompleteTest series={series}
                                   setSeries={setSeries}
                 />
@@ -91,7 +91,7 @@ export default function Home() {
             <div className="row remove-buttons">
                 {cityRenders}
             </div>
-            <div className="container">
+            <div className="graph-wrapper">
                 <div className="mixed-chart">
                     <Chart
                         options={options}
