@@ -20,18 +20,11 @@ lineReader.on('line', function (line) {
             population: population
         }
         cities.data.push(city)
-        /*
-        db.run('INSERT INTO cities(name, country, lat, lng) VALUES(?, ?, ?, ?)', [name, country, lat, lng], function (err) {
-            if (err) {
-                return console.log(err.message);
-            }
-        })
-        */
     }
 })
 
 lineReader.on('close', () => {
-    require('fs').writeFile('allCities.json', JSON.stringify(cities), function (err) {
+    require('fs').writeFile('Data/allCities.json', JSON.stringify(cities), function (err) {
         if (err) {
             return log(err)
         }

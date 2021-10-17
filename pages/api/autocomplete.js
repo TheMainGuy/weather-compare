@@ -3,6 +3,8 @@ import getConfig from 'next/config'
 let { serverRuntimeConfig } = getConfig()
 
 let cities = serverRuntimeConfig.cityNames
+let countryCodes = serverRuntimeConfig.countryCodes
+
 export default async function handler(req, res) {
 
     let name = req.query.name
@@ -20,7 +22,7 @@ export default async function handler(req, res) {
         if (entry.name.toString().toLowerCase().startsWith(name.toString().toLowerCase())) {
             let match = {}
             match.name = entry.name
-            match.country = entry.country
+            match.country = countryCodes[entry.country]
             match.population = entry.population
             match.id = entry.name + '_' + entry.lat + '_' + entry.lng
             if (isDuplicate(entry, json.data.matches) === false) {
@@ -33,20 +35,16 @@ export default async function handler(req, res) {
 
 function isDuplicate(entry, matches) {
     for (const match of matches) {
-        if (match.name === entry.name) {
-            if (match.country === entry.country) {
-                let matchIDcomponents = match.id.split('_')
-                let matchLat = Number(matchIDcomponents[1])
-                let matchLng = Number(matchIDcomponents[2])
+        let matchIDcomponents = match.id.split('_')
+        let matchLat = Number(matchIDcomponents[1])
+        let matchLng = Number(matchIDcomponents[2])
 
-                let lat = Number(entry.lat)
-                let lng = Number(entry.lng)
+        let lat = Number(entry.lat)
+        let lng = Number(entry.lng)
 
-                let distance = Math.abs(matchLat - lat) + Math.abs(matchLng - lng)
-                if (distance < 1) {
-                    return true
-                }
-            }
+        let distance = Math.abs(matchLat - lat) + Math.abs(matchLng - lng)
+        if (distance < 0.1) {
+            return true
         }
     }
     return false

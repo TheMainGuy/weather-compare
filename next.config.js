@@ -13,6 +13,9 @@ log('Loaded city names from: ' + config.cityNamesFile)
 let citiesCache = JSON.parse(fs.readFileSync(config.cacheFile, 'utf8'))
 log('Loaded cities cache from: ' + config.cacheFile)
 
+let countryCodes = JSON.parse(fs.readFileSync(config.countryCodesFile, 'utf8'))
+log('Loaded country codes from: ' + config.countryCodesFile)
+
 function log(data) {
     let logTime = new Date().toISOString()
     logTime = logTime.replace('T', ' ').replace('Z', '')
@@ -24,6 +27,7 @@ module.exports = {
     serverRuntimeConfig: {
         config: config,
         cityNames: cityNames.data,
-        citiesCache: citiesCache
+        citiesCache: citiesCache,
+        countryCodes: countryCodes
     }
 }
