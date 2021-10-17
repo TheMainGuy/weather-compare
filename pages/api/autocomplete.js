@@ -1,22 +1,9 @@
-const csv = require("csvtojson")
 import getConfig from 'next/config'
 
 let { serverRuntimeConfig } = getConfig()
-const config = serverRuntimeConfig.config
 
-let cities = {}
-let init = false
-
+let cities = serverRuntimeConfig.cityNames
 export default async function handler(req, res) {
-    if (!init) {
-        init = true
-        try {
-            cities = await csv().fromFile(config.citiesCSV)
-        } catch (error) {
-            res.status(500).end('Error')
-            return
-        }
-    }
 
     let name = req.query.name
     if (name.length <= 2) {
@@ -30,9 +17,9 @@ export default async function handler(req, res) {
     }
     for (var index in cities) {
         let entry = cities[index]
-        if (entry.city.toString().toLowerCase().startsWith(name.toString().toLowerCase())) {
+        if (entry.name.toString().toLowerCase().startsWith(name.toString().toLowerCase())) {
             let match = {}
-            match.city = entry.city
+            match.city = entry.name
             match.country = entry.country
             match.id = entry.city + '_' + entry.lat + '_' + entry.lng
             json.data.matches.push(match)
