@@ -21,6 +21,7 @@ export default function Home() {
     }, [theme]);
     const [options, setOptions] = useState({
         chart: {
+            width: '100%',
             id: "basic-bar",
             zoom: {
                 enabled: false
@@ -82,13 +83,13 @@ export default function Home() {
             <div className="row remove-buttons">
                 {cityRenders}
             </div>
-            <div className="row">
+            <div className="container">
                 <div className="mixed-chart">
                     <Chart
                         options={options}
                         series={series}
                         type="line"
-                        width="1000"
+                        style={{width:'100%'}}
                     />
                 </div>
 
