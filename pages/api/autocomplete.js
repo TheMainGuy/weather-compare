@@ -21,7 +21,7 @@ export default async function handler(req, res) {
             let match = {}
             match.city = entry.name
             match.country = entry.country
-            match.id = entry.city + '_' + entry.lat + '_' + entry.lng
+            match.id = entry.name + '_' + entry.lat + '_' + entry.lng
             json.data.matches.push(match)
         }
     }
