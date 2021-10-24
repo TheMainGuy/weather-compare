@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import ToggleColorMode from '../components/ToggleColorMode';
 import {useTheme} from '@mui/material/styles';
 
+
 const Chart = dynamic(() => import('react-apexcharts'), {ssr: false});
 
 

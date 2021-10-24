@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import Head from 'next/head';
+
 import '@styles/globals.css'
 import {ThemeProvider, useTheme, createTheme} from '@mui/material/styles';
 import {ColorModeContext} from '../components/ToggleColorMode';
@@ -27,11 +29,29 @@ function Application({Component, pageProps}) {
     );
 
     return (
-        <ColorModeContext.Provider value={colorMode}>
-            <ThemeProvider theme={theme}>
-                <Component {...pageProps} />
-            </ThemeProvider>
-        </ColorModeContext.Provider>
+        <>
+            <Head>
+                <script
+                    async
+                    src="https://www.googletagmanager.com/gtag/js?id=G-FWVETRFDNB"
+                />
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `
+                            window.dataLayer = window.dataLayer || [];
+                            function gtag(){dataLayer.push(arguments);}
+                            gtag('js', new Date());
+                            gtag('config', 'G-FWVETRFDNB');
+                            `,
+                    }}
+                />
+            </Head>
+            <ColorModeContext.Provider value={colorMode}>
+                <ThemeProvider theme={theme}>
+                    <Component {...pageProps} />
+                </ThemeProvider>
+            </ColorModeContext.Provider>
+        </>
     )
 }
 
