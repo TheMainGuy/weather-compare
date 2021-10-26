@@ -75,10 +75,13 @@ code {
 .invisible-filler {
   margin-right: auto;
   visibility: hidden;
+  display: flex;
 }
 
-.settings-bar {
+.action-bar {
   margin-left: auto;
+  display: flex;
+  align-items: center;
 }
 
 
@@ -87,7 +90,6 @@ code {
   justify-content: flex-end;
   width: 100%;
   max-width: 50rem;
-  margin-bottom: 1rem;
 }
 
 .description {

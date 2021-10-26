@@ -1,10 +1,14 @@
 import React, {useState, useEffect} from "react";
 import dynamic from 'next/dynamic';
+import Link from 'next/link'
+
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import {useTheme} from '@mui/material/styles';
+
 import AutocompleteTest from '../components/AutocompleteTest';
 import RemoveCityButton from '../components/RemoveCityButton';
-import Box from '@mui/material/Box';
 import ToggleColorMode from '../components/ToggleColorMode';
-import {useTheme} from '@mui/material/styles';
 
 
 const Chart = dynamic(() => import('react-apexcharts'), {ssr: false});
@@ -81,7 +85,6 @@ export default function Home() {
                 width: '100%',
                 minHeight: '100%',
                 alignItems: 'center',
-                justifyContent: 'center',
                 bgcolor: 'background.default',
                 color: 'text.primary',
                 p: 3,
@@ -91,6 +94,11 @@ export default function Home() {
         >
             <div className="header">
                 <div className="invisible-filler">
+                    <Link href="/about">
+                        <Button>
+                            About
+                        </Button>
+                    </Link>
                     <div className="toggle-wrapper">
                         <ToggleColorMode/>
                     </div>
@@ -100,7 +108,12 @@ export default function Home() {
                         Beautiful weather statistics for cities
                     </h2>
                 </div>
-                <div className="settings-bar">
+                <div className="action-bar">
+                    <Link href="/about">
+                        <Button>
+                            About
+                        </Button>
+                    </Link>
                     <div className="toggle-wrapper">
                         <ToggleColorMode/>
                     </div>

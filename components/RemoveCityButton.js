@@ -10,8 +10,8 @@ export default function RemoveCityButton(props) {
             variant="outlined"
             startIcon={<DeleteIcon/>}
             color="error"
+            href
             onClick={() => {
-                removeCity(index)
 
             }}
             onMouseOver={() => setHover(true)}
