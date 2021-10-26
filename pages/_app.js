@@ -31,6 +31,7 @@ function Application({Component, pageProps}) {
     return (
         <>
             <Head>
+                <title>Tempsty</title>
                 <script
                     async
                     src="https://www.googletagmanager.com/gtag/js?id=G-FWVETRFDNB"
