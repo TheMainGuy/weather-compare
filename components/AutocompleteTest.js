@@ -28,6 +28,10 @@ export default function Asynchronous(props) {
                 .then(result => {
                     if (result.data.matches) {
                         matches = result.data.matches;
+                        matches.sort((a,b) =>
+                            (a.population > b.population)
+                                ? -1
+                                : ((b.population > a.population) ? 1 : 0));
                         setOptions(matches);
                         setLoading(false);
                     }

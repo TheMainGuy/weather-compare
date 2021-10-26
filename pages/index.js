@@ -4,7 +4,8 @@ import AutocompleteTest from '../components/AutocompleteTest';
 import RemoveCityButton from '../components/RemoveCityButton';
 import Box from '@mui/material/Box';
 import ToggleColorMode from '../components/ToggleColorMode';
-import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
+import {useTheme} from '@mui/material/styles';
+
 
 const Chart = dynamic(() => import('react-apexcharts'), {ssr: false});
 
@@ -45,6 +46,11 @@ export default function Home() {
                     height: '400'
                 }
             }
+        },
+        {
+            // 'Fake' breakpoint that will never apply
+            breakpoint: 9001,
+            options: {}, // You can leave this empty
         }],
     });
     const [series, setSeries] = useState([]);
@@ -73,6 +79,7 @@ export default function Home() {
                 display: 'flex',
                 flexDirection: 'column',
                 width: '100%',
+                minHeight: '100%',
                 alignItems: 'center',
                 justifyContent: 'center',
                 bgcolor: 'background.default',
