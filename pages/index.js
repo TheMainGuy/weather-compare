@@ -89,8 +89,25 @@ export default function Home() {
                 overflowX: 'hidden'
             }}
         >
-            <div className="toggle-wrapper">
-                <ToggleColorMode/>
+            <div className="header">
+                <div className="invisible-filler">
+                    <div className="toggle-wrapper">
+                        <ToggleColorMode/>
+                    </div>
+                </div>
+                <div className="header-text">
+                    <h2>
+                        Beautiful weather statistics for cities
+                    </h2>
+                </div>
+                <div className="settings-bar">
+                    <div className="toggle-wrapper">
+                        <ToggleColorMode/>
+                    </div>
+                </div>
+            </div>
+            <div className="description">
+                Enter cities you wish to compare to add them to the graph!
             </div>
             <div className="autocomplete-wrapper">
                 <AutocompleteTest series={series}

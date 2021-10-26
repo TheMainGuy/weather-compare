@@ -60,6 +60,28 @@ code {
   margin: 0.5rem 0.5rem 0 0.5rem;
 }
 
+.mixed-chart {
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.invisible-filler {
+  margin-right: auto;
+  visibility: hidden;
+}
+
+.settings-bar {
+  margin-left: auto;
+}
+
+
 .toggle-wrapper {
   display: flex;
   justify-content: flex-end;
@@ -68,7 +90,7 @@ code {
   margin-bottom: 1rem;
 }
 
-.mixed-chart {
-  width: 100%;
-  height: 100%;
+.description {
+  margin-bottom: 2rem;
 }
+
